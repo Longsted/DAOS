@@ -207,6 +207,50 @@ public class JAVAexamples {
 			System.out.println("fejl:  "+e.getMessage());
 		}
 	}
+	public static void opgave15(){
+		try {
+			// indl�sning
+			System.out.println("vi vil nu indsætte resultater for 2024");
+			System.out.println("Indtast rytterinit (rytter skal være oprettet på forhånd");
+			String init=inLine.readLine();
+			System.out.println("indtast resultat");
+			String initResult=inLine.readLine();
+			// Anvendelse af prepared statement
+			String sql = "insert into placering values (?,?,?)";
+			PreparedStatement prestmt = minConnection.prepareStatement(sql);
+			prestmt.clearParameters();
+			prestmt.setInt(1,2024);
+			prestmt.setString(2,init);
+			prestmt.setString(3,initResult);
+			// Udf�rer s�tningen
+			prestmt.execute();
+			// p�nt svar til brugeren
+			System.out.println("oprettelse er nu registreret");
+			if (!minConnection.isClosed()) minConnection.close();
+		}
+		catch (SQLException e) {
+			switch (e.getErrorCode())
+			// fejl-kode 547 svarer til en foreign key fejl
+			{ case 547 : {if (e.getMessage().contains("initforeign"))
+				System.out.println("rytter er ikke oprettet");
+			else
+			if (e.getMessage().contains("aarstalforeign"))
+				System.out.println("aarstal er ikke oprettet");
+			else
+				System.out.println("ukendt fremmednøglefejl");
+				break;
+			}
+			// fejl-kode 2627 svarer til primary key fejl
+				case 2627: {System.out.println("den pågældende rytter er allerede oprettet");
+					break;
+				}
+				default: System.out.println("fejlSQL:  "+e.getMessage());
+			};
+		}
+		catch (Exception e) {
+			System.out.println("fejl:  "+e.getMessage());
+		}
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -232,6 +276,7 @@ public class JAVAexamples {
 			System.out.println("ps for insert med prepared statement ");
 			System.out.println("u for udskriv");
 			System.out.println("år for 2024Udskriv");
+			System.out.println("15 for opgave15");
 			String in=inLine.readLine();
 			switch (in)
 			{case "s"  : {selectudenparm();break;}
@@ -240,6 +285,7 @@ public class JAVAexamples {
 			 case "ps"  : {insertprepared();break;}
 				case "u" : {udskriv();break;}
 				case "år" :{year2024();break;}
+				case"15" : {opgave15();break;}
 			default : System.out.println("ukendt indtastning");
 			}
 		}
