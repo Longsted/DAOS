@@ -1,0 +1,18 @@
+package opgave1;
+
+public class TrådKlasse extends Thread{
+    private String navn;
+    private FællesKlasse fællesKlasse;
+
+    public TrådKlasse(String navn, FællesKlasse fællesKlasse) {
+        this.navn = navn;
+        this.fællesKlasse = fællesKlasse;
+    }
+    public void run() {
+        for (int j=0; j<100;j++) {
+            fællesKlasse.kritiskSection();
+            fællesKlasse.tagerRandomTid(200);
+        }
+        System.out.println(fællesKlasse.getGlobal());
+    }
+}

@@ -24,7 +24,7 @@ public class App {
         }
         l2 =System.nanoTime();
         System.out.println(Arrays.toString(antalRigtige));
-        System.out.println("Køretiden er : " + (l2-l1)/100000 + " sekunder");
+        System.out.println("Køretiden er : " + (l2-l1)/1000000 + " sekunder");
 
     }
 }
